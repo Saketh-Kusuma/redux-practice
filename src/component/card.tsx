@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardFooter,
   CardTitle,
-  CardDescription,
   CardAction,
 } from "@/components/ui/card";
 interface products {
