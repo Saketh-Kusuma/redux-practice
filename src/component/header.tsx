@@ -11,9 +11,10 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import type { RootState } from "@/store/store";
 import axios from "axios";
-import { useAppDispatch, useAppSelector } from "@/store/hooks.ts";
+import { useAppDispatch } from "@/store/hooks.ts";
 import { fetchAllCategories } from "@/store/categoriesSlice";
-import { ShoppingCart } from "lucide-react";
+import { Heart, ShoppingCart } from "lucide-react";
+import { useState } from "react";
 export default function Header() {
   const dispatch = useAppDispatch();
   const categories = useSelector((state: RootState) => state.categories);
@@ -22,11 +23,13 @@ export default function Header() {
       dispatch(fetchAllCategories(data.data));
     });
   }, []);
-
+  const [hover, setHover] = useState(false);
   return (
     <header className="flex flex-row justify-between content-center p-4">
       <div className="text-3xl font-bold">
-        Shop<span className="text-destructive">sy</span>
+        <Link to="/">
+          Shop<span className="text-destructive">sy</span>
+        </Link>
       </div>
       <div>
         <NavigationMenu viewport={true}>
@@ -62,6 +65,22 @@ export default function Header() {
               <NavigationMenuLink asChild>
                 <Link to="/cart">
                   <ShoppingCart color="black" size={15} strokeWidth={3} />
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink asChild>
+                <Link
+                  to="/wishlist"
+                  onMouseEnter={() => setHover(true)}
+                  onMouseLeave={() => setHover(false)}
+                >
+                  <Heart
+                    fill={hover ? "#FF4F0F" : "#FFFFFF"}
+                    color={hover ? "#FFFFFF" : "black"}
+                    size={15}
+                    strokeWidth={3}
+                  />
                 </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>

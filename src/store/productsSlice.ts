@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "./store";
-import { act } from "react";
 const productsSlice = createSlice({
   name: "products",
   initialState: {
@@ -26,7 +25,11 @@ const productsSlice = createSlice({
     },
   },
 });
-export const { fetchAllProducts, fetchLoadingState, fetchErrorState } =
-  productsSlice.actions;
+export const {
+  fetchAllProducts,
+  fetchLoadingState,
+  fetchErrorState,
+  fetchCategoryProducts,
+} = productsSlice.actions;
 export const products = (state: RootState) => state.products;
 export default productsSlice.reducer;
