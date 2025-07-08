@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/store/hooks";
 import { fetchAllProducts, getAllProducts } from "@/store/productsSlice";
@@ -20,8 +19,12 @@ export default function Home() {
   const dispatch = useAppDispatch();
   const products = useSelector(getAllProducts);
   useEffect(() => {
-    axios.get("https://fakestoreapi.com/products").then((data) => {
-      dispatch(fetchAllProducts(data.data));
+    dispatch({
+      type: "api/call",
+      payload: {
+        Url: "products",
+        onSuccess: fetchAllProducts.type,
+      },
     });
   }, []);
   return (

@@ -1,6 +1,5 @@
 import CustomCard from "@/component/card";
 import { useAppDispatch } from "@/store/hooks";
-import axios from "axios";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -25,11 +24,13 @@ export default function Categories() {
   const products = useSelector(categoryProducts);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    axios
-      .get(`https://fakestoreapi.com/products/category/${params.categoryName}`)
-      .then((data) => {
-        dispatch(fetchCategoryProducts(data.data));
-      });
+    dispatch({
+      type: "api/call",
+      payload: {
+        Url: `products/category/${params.categoryName}`,
+        onSuccess: fetchCategoryProducts.type,
+      },
+    });
   }, [params]);
   return (
     <div className="pt-8">

@@ -10,7 +10,6 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import type { RootState } from "@/store/store";
-import axios from "axios";
 import { useAppDispatch } from "@/store/hooks.ts";
 import { fetchAllCategories } from "@/store/categoriesSlice";
 import { Heart, ShoppingCart } from "lucide-react";
@@ -19,8 +18,12 @@ export default function Header() {
   const dispatch = useAppDispatch();
   const categories = useSelector((state: RootState) => state.categories);
   useEffect(() => {
-    axios.get("https://fakestoreapi.com/products/categories").then((data) => {
-      dispatch(fetchAllCategories(data.data));
+    dispatch({
+      type: "api/call",
+      payload: {
+        Url: "products/categories",
+        onSuccess: fetchAllCategories.type,
+      },
     });
   }, []);
   const [hover, setHover] = useState(false);
