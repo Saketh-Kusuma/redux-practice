@@ -15,21 +15,12 @@ const productsSlice = createSlice({
       state.isLoading = false;
       state.list = action.payload;
     },
-    fetchCategoryProducts(state, action) {
-      state.list = state.list.filter(
-        (item: any) => item.category === action.payload
-      );
-    },
     fetchErrorState(state, action) {
       state.isError = action.payload || "Something went wrong";
     },
   },
 });
-export const {
-  fetchAllProducts,
-  fetchLoadingState,
-  fetchErrorState,
-  fetchCategoryProducts,
-} = productsSlice.actions;
-export const products = (state: RootState) => state.products;
+export const { fetchAllProducts, fetchLoadingState, fetchErrorState } =
+  productsSlice.actions;
+export const getAllProducts = (state: RootState) => state.products;
 export default productsSlice.reducer;

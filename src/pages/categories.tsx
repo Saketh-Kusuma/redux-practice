@@ -1,11 +1,13 @@
 import CustomCard from "@/component/card";
 import { useAppDispatch } from "@/store/hooks";
-import { fetchAllProducts, fetchCategoryProducts } from "@/store/productsSlice";
-import type { RootState } from "@/store/store";
 import axios from "axios";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import {
+  fetchCategoryProducts,
+  categoryProducts,
+} from "@/store/categoryProductSlice";
 interface products {
   id: number;
   image: string;
@@ -20,14 +22,13 @@ interface products {
 }
 export default function Categories() {
   const params = useParams();
-  const products = useSelector((state: RootState) => state.products);
+  const products = useSelector(categoryProducts);
   const dispatch = useAppDispatch();
   useEffect(() => {
     axios
       .get(`https://fakestoreapi.com/products/category/${params.categoryName}`)
       .then((data) => {
-        dispatch(fetchAllProducts(data.data));
-        dispatch(fetchCategoryProducts(params.categoryName));
+        dispatch(fetchCategoryProducts(data.data));
       });
   }, [params]);
   return (

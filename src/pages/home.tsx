@@ -1,10 +1,9 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/store/hooks";
-import { fetchAllProducts } from "@/store/productsSlice";
+import { fetchAllProducts, getAllProducts } from "@/store/productsSlice";
 import CustomCard from "@/component/card";
 import { useSelector } from "react-redux";
-import type { RootState } from "@/store/store";
 interface products {
   id: number;
   image: string;
@@ -19,7 +18,7 @@ interface products {
 }
 export default function Home() {
   const dispatch = useAppDispatch();
-  const products = useSelector((state: RootState) => state.products);
+  const products = useSelector(getAllProducts);
   useEffect(() => {
     axios.get("https://fakestoreapi.com/products").then((data) => {
       dispatch(fetchAllProducts(data.data));
