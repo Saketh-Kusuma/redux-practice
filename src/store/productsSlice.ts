@@ -1,5 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "./store";
+export const fetchAllProductsData = createAsyncThunk(
+  "products/call",
+  async () => {
+    try {
+      const response = await fetch(`https://fakestoreapi.com/products`);
+      return response.json();
+    } catch (error) {
+      throw error;
+    }
+  }
+);
 const productsSlice = createSlice({
   name: "products",
   initialState: {
@@ -7,20 +18,20 @@ const productsSlice = createSlice({
     list: [],
     isError: "",
   },
-  reducers: {
-    fetchLoadingState(state) {
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchAllProductsData.pending, (state) => {
       state.isLoading = true;
-    },
-    fetchAllProducts(state, action) {
-      state.isLoading = false;
+    });
+    builder.addCase(fetchAllProductsData.fulfilled, (state, action) => {
+      state.isLoading = true;
       state.list = action.payload;
-    },
-    fetchErrorState(state, action) {
-      state.isError = action.payload || "Something went wrong";
-    },
+      state.isError = "";
+    });
+    builder.addCase(fetchAllProductsData.rejected, (state) => {
+      state.isError = "Something went wrong";
+    });
   },
 });
-export const { fetchAllProducts, fetchLoadingState, fetchErrorState } =
-  productsSlice.actions;
 export const getAllProducts = (state: RootState) => state.products;
 export default productsSlice.reducer;

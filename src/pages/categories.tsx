@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
-  fetchCategoryProducts,
   categoryProducts,
+  fetchCategoryProductsData,
 } from "@/store/categoryProductSlice";
 interface products {
   id: number;
@@ -24,13 +24,7 @@ export default function Categories() {
   const products = useSelector(categoryProducts);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch({
-      type: "api/call",
-      payload: {
-        Url: `products/category/${params.categoryName}`,
-        onSuccess: fetchCategoryProducts.type,
-      },
-    });
+    dispatch(fetchCategoryProductsData(params.categoryName));
   }, [params]);
   return (
     <div className="pt-8">

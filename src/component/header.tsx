@@ -11,20 +11,14 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import type { RootState } from "@/store/store";
 import { useAppDispatch } from "@/store/hooks.ts";
-import { fetchAllCategories } from "@/store/categoriesSlice";
+import { fetchAllCategoriesData } from "@/store/categoriesSlice";
 import { Heart, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 export default function Header() {
   const dispatch = useAppDispatch();
   const categories = useSelector((state: RootState) => state.categories);
   useEffect(() => {
-    dispatch({
-      type: "api/call",
-      payload: {
-        Url: "products/categories",
-        onSuccess: fetchAllCategories.type,
-      },
-    });
+    dispatch(fetchAllCategoriesData());
   }, []);
   const [hover, setHover] = useState(false);
   return (

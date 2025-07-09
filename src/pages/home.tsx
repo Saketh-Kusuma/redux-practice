@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "@/store/hooks";
-import { fetchAllProducts, getAllProducts } from "@/store/productsSlice";
+import { fetchAllProductsData, getAllProducts } from "@/store/productsSlice";
 import CustomCard from "@/component/card";
 import { useSelector } from "react-redux";
 interface products {
@@ -19,13 +19,7 @@ export default function Home() {
   const dispatch = useAppDispatch();
   const products = useSelector(getAllProducts);
   useEffect(() => {
-    dispatch({
-      type: "api/call",
-      payload: {
-        Url: "products",
-        onSuccess: fetchAllProducts.type,
-      },
-    });
+    dispatch(fetchAllProductsData());
   }, []);
   return (
     <>
